@@ -1,1 +1,0 @@
-TRUNCATE blogful_articles;
