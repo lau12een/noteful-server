@@ -1,33 +1,38 @@
 const FoldersService = {
     getAllFolders(knex) {
-        return knex.select('*').from('noteful_folders');
+      return knex.select('*').from('noteful_folders')
     },
-
-    getById(knex, id) {
-        return knex
-            .from('noteful_folders')
-            .select('*')
-            .where('id', id)
-            .first()
-        ;
-    },
-
+  
     insertFolder(knex, newFolder) {
-        return knex
-            .insert(newFolder)
-            .into('noteful_folders')
-            .returning('*')
-            .then(rows => rows[0])
-        ;
+      return knex
+        .insert(newFolder)
+        .into('noteful_folders')
+        .returning('*')
+        .then(rows => {
+          return rows[0]
+        })
     },
-
+  
+    getById(knex, id) {
+      return knex
+        .from('noteful_folders')
+        .select('*')
+        .where('id', id)
+        .first()
+    },
+  
     deleteFolder(knex, id) {
-        return knex('noteful_folders').where({ id }).delete();
+      return knex('noteful_folders')
+        .where({ id })
+        .delete()
     },
-
-    updateFolder(knex, id, newFolderFields) {
-        return knex('noteful_folders').where({ id }).update(newFolderFields);
-    }
-};
-
-module.exports = FoldersService;
+  
+    updateFolder(knex, id, newFolderName) {
+      return knex('noteful_folders')
+        .where({ id })
+        .update(newFolderName)
+        .returning('*')
+    },
+  }
+  
+  module.exports = FoldersService
